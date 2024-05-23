@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.29)
+project(the-new-oikoumene)
+include_directories(include)
+file(GLOB SOURCES "src/*.cpp")
+add_executable(tno ${SOURCES})
