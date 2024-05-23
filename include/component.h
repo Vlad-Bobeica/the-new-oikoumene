@@ -9,7 +9,7 @@ class wall
 {
     struct layer
     {
-        double thickness; //TO-DO: Make load function compatible with non-integer values
+        double thickness;
         int material;
     };
     
@@ -23,39 +23,34 @@ public:
         std::cout << "Initialising wall:" << '\n'
             << '\t' << "Enter number of wall layers:" << '\n' << "> ";
         std::cin >> number_of_layers;
-        save << number_of_layers;
+        save << number_of_layers << std::endl;
         total_thickness = 0;
         for (int i = 1; i <= number_of_layers; i++)
         {
             layer current;
             std::cout << '\t' << "Enter thickness of Layer " << i << " in meters: (interior to exterior)" << '\n' << "> ";
             std::cin >> current.thickness;
-            save << current.thickness;
+            save << current.thickness << std::endl;
             total_thickness += current.thickness;
             std::cout << '\t' << "Enter material of Layer " << i << ": (number corresponding to a material)" << '\n' << "> ";
             std::cin >> current.material;
-            save << current.material;
+            save << current.material << std::endl;
             wall_layers.push_back(current);
         }
-        save << '\n';
         save.close();
         std::cout << "Wall initialised successfully." << '\n' << '\n';
     }
     wall(long long code)
     {
         std::ifstream save("data.txt");
-        char digit;
-        save >> digit;
-        number_of_layers = digit - '0';
+        save >> number_of_layers;
         total_thickness = 0;
         for (int i = 1; i <= number_of_layers; i++)
         {
             layer current;
-            save >> digit;
-            current.thickness = digit - '0';
+            save >> current.thickness;
             total_thickness += current.thickness;
-            save >> digit;
-            current.material = digit - '0';
+            save >> current.material;
             wall_layers.push_back(current);
         }
         save.close();

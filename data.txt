@@ -1,6 +1,12 @@
-3216221
+3
 2
-tube
+1
+6
+2
+2
+1
+2
+spheroid
 tube
 1
 ring

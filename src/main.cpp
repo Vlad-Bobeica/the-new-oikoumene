@@ -91,7 +91,8 @@ int main()
             ofstream save("data.txt", std::ios::app);
             cout << "List of available shapes:" << '\n'
             << " |" << '\t' << "tube" << '\n'
-            << " |" << '\t' << "ring" << '\n';
+            << " |" << '\t' << "ring" << '\n'
+            << " |" << '\t' << "spheroid" << '\n';
             for (int i = 0; i < 2; i++)
             {
                 cout << '\n' << "Configuring the ";
@@ -114,6 +115,9 @@ int main()
                     }else if (shape == "ring")
                     {
                         save << "ring" << endl;
+                    }else if (shape == "spheroid")
+                    {
+                        save << "spheroid" << endl;
                     }else{
                         cout << "Unidentified shape name." << '\n';
                         k--;
@@ -125,8 +129,14 @@ int main()
             map<int, double> density = getMaterials();
             wall exterior_wall(code);
             ifstream save("data.txt");
-            long long dump;
-            save >> dump;
+            string dump;
+            getline(save, dump);
+            for (int i = 0; i < exterior_wall.number_of_layers; i++)
+            {
+                getline(save, dump);
+                getline(save, dump);
+            }
+            cout << "TBD is short for To-Be-Determined. This program solves for a singular specified TBD size." << '\n';
             for (int i = 0; i < 2; i++)
             {
                 cout << '\n' << "Configuring the ";
@@ -145,6 +155,9 @@ int main()
                     }else if (shape == "ring")
                     {
                         half[i].part.push_back(new ring);
+                    }else if (shape == "spheroid")
+                    {
+                        half[i].part.push_back(new spheroid);
                     }
                     if (half[i].part[k]->isTBD)
                     {
@@ -160,7 +173,7 @@ int main()
             save.close();
             double trial_size = 0;
             double lower_bound = 10;
-            double upper_bound = 2000;
+            double upper_bound = 10000;
             double added_momentum = 0;
             half[abs(tbd.half - 1)].angular_momentum = 0;
             for (int k = 0; k < half[abs(tbd.half - 1)].part.size(); k++)
@@ -205,7 +218,7 @@ int main()
                 else if (half[tbd.half].angular_momentum < half[abs(tbd.half - 1)].angular_momentum)
                     lower_bound = trial_size;
             }
-            cout << trial_size << endl;
+            cout << '\n' << "Your To-Be-Determined value is: " << trial_size << " m" << endl;
             cout << '\n' << "Run again? (y / n)" << '\n' << "> ";
             cin >> repeat;
         }
