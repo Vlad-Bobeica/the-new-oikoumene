@@ -7,6 +7,50 @@ const double pi = 2 * acos(0.0);
 const double g = 9.8067;
 
 
+wall::wall(int run_case)
+{
+    if (run_case == 0)
+    {
+        std::ofstream save("data.txt", std::ios::app);
+        std::cout << "Initialising wall:" << '\n'
+            << '\t' << "Enter number of wall layers:" << '\n' << "> ";
+        std::cin >> number_of_layers;
+        save << number_of_layers << std::endl;
+        total_thickness = 0;
+        for (int i = 1; i <= number_of_layers; i++)
+        {
+            layer current;
+            std::cout << '\t' << "Enter thickness of Layer " << i << " in meters: (interior to exterior)" << '\n' << "> ";
+            std::cin >> current.thickness;
+            save << current.thickness << std::endl;
+            total_thickness += current.thickness;
+            std::cout << '\t' << "Enter material of Layer " << i << ": (number corresponding to a material)" << '\n' << "> ";
+            std::cin >> current.material;
+            save << current.material << std::endl;
+            wall_layers.push_back(current);
+        }
+        save.close();
+        std::cout << "Wall initialised successfully." << '\n' << '\n';
+    }
+    else if (run_case == 1)
+    {
+        std::ifstream save("data.txt");
+        save >> number_of_layers;
+        total_thickness = 0;
+        for (int i = 1; i <= number_of_layers; i++)
+        {
+            layer current;
+            save >> current.thickness;
+            total_thickness += current.thickness;
+            save >> current.material;
+            wall_layers.push_back(current);
+        }
+        save.close();
+        std::cout << "Wall loaded successfully." << '\n' << '\n';
+    }
+}
+
+
 void component::compute(wall exterior, std::map<int, double> density)
 {
     std::cout << "Error occurred : component type was not identified." << std::endl;
