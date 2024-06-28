@@ -73,11 +73,11 @@ int checkFile()
                     << '\n' << '\n' << "Press ENTER to continue after filling in the configuration file." << '\n';
                 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
                 std::system("config.txt");
-                system("pause");
                 #else
                 std::system("open config.txt");
-                system("read");
                 #endif
+                cin.ignore();
+                cin.get();
                 return 1;
             }
             else if (response == 'N' || response == 'n')
@@ -180,11 +180,11 @@ char run(int run_case)
             << '\n' << '\n' << "Press ENTER to continue after filling in the configuration file." << '\n';
         #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
         std::system("config.txt");
-        system("pause");
         #else
         std::system("open config.txt");
-        system("read");
         #endif
+        cin.ignore();
+        cin.get();
         return 'y';
     }
 
@@ -282,11 +282,8 @@ char run(int run_case)
         {
             cout << '\n' <<"Invalid data set (the angular momentum of the TBD assembly is too large)." << '\n' << endl;
             cout << "Press ENTER to continue after modifying the configuration file." << '\n';
-            #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-            system("pause");
-            #else
-            system("read");
-            #endif
+            cin.ignore();
+            cin.get();
             return 'y';
         }
         added_momentum = 0;
@@ -311,11 +308,8 @@ char run(int run_case)
             {
                 cout << '\n' <<"Invalid data set (the angular momentum of the TBD assembly is too small)." << '\n' << endl;
                 cout << "Press ENTER to continue after modifying the configuration file." << '\n';
-                #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-                system("pause");
-                #else
-                system("read");
-                #endif
+                cin.ignore();
+                cin.get();
                 return 'y';
             }
         }
