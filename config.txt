@@ -1,0 +1,28 @@
+This is the configuration file. Fill in, after each '>' character, dimensions in meters (input '0' for only one TBD size) and the percentage of g generated at the radius of each component using decimal numbers (input '1' for Earth gravity, '0' if the tube is coupled to the previous component of the assembly).
+
+
+First, clockwise rotating assembly of the vessel:
+
+Spheroid component:
+	(internal, equatorial) radius: > 1800
+	ratio: (equatorial radius over polar radius | input 1 for a sphere) > 2
+	percentage of g to be generated at radius: > 1.2
+
+
+Tube component:
+	(internal) radius: > 290
+	length: > 2500
+	percentage of g to be generated at radius: > 0
+
+
+Second, counter-clockwise rotating assembly of the vessel:
+
+Ring component:
+	(internal, outer) radius: > 1800
+	thickness: > 400
+	length: > 0
+	Has interlink? (0 if welded to the tube it spins with, else 1) > 1
+	(internal) radius of the tube it is connected to: > 290
+	percentage of g to be generated at radius: > 1.2
+
+

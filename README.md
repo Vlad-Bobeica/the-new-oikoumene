@@ -62,7 +62,7 @@ The application will compute the optimal dimensions for TBD components based on 
 Review the results and choose to run the application again for multiple iterations or exit.
 
 ## Example
-
+### Application in terminal
 ```
 
 No previous data found.
@@ -75,46 +75,45 @@ Table of materials:
  3 |        air |    1.293
 
 Initialising wall:
-	Enter number of wall layers:
+    Enter number of wall layers:
 > 3
-	Enter thickness of Layer 1 in meters: (interior to exterior)
+    Enter thickness of Layer 1 in meters: (interior to exterior)
 > 2
-	Enter material of Layer 1: (number corresponding to a material)
+    Enter material of Layer 1: (number corresponding to a material)
 > 1
-	Enter thickness of Layer 2 in meters: (interior to exterior)
+    Enter thickness of Layer 2 in meters: (interior to exterior)
 > 5.5
-	Enter material of Layer 2: (number corresponding to a material)
+    Enter material of Layer 2: (number corresponding to a material)
 > 2
-	Enter thickness of Layer 3 in meters: (interior to exterior)
+    Enter thickness of Layer 3 in meters: (interior to exterior)
 > 2.5
-	Enter material of Layer 3: (number corresponding to a material)
+    Enter material of Layer 3: (number corresponding to a material)
 > 1
 Wall initialised successfully.
 
 List of available shapes:
- |	tube
- |	ring
- |	spheroid
+ |    tube
+ |    ring
+ |    spheroid
 
 Configuring the first, clockwise rotating assembly of the vessel.
 Enter the number of component subassemblies (geometric shapes):
 > 2
-	Enter shape of subassembly 1: (from list of shapes)
+    Enter shape of subassembly 1: (from list of shapes)
 > spheroid
-	Enter shape of subassembly 2: (from list of shapes)
+    Enter shape of subassembly 2: (from list of shapes)
 > tube
 
 Configuring the second, counter-clockwise rotating assembly of the vessel.
 Enter the number of component subassemblies (geometric shapes):
 > 1
-	Enter shape of subassembly 1: (from list of shapes)
+    Enter shape of subassembly 1: (from list of shapes)
 > ring
 
-Saved data found.
-Proceed with loading the previous vessel? (Y to load / N to delete saved data / E to exit)
-> y
 
-Loading previous vessel...
+Vessel initialised. Opening configuration file...
+
+Press ENTER to continue after filling in the configuration file.
 
 Table of materials:
  0 |      water |      997 (average interior density)
@@ -127,40 +126,66 @@ Wall loaded successfully.
 TBD is short for To-Be-Determined. This program solves for a singular specified TBD size.
 
 Configuring the first, clockwise rotating assembly of the vessel.
-Creating spheroid component. Input dimensions in meters, input '0' for only one TBD size.
-Enter the spheroid (internal, equatorial) radius:
-	> 1800
-Enter the spheroid ratio: (equatorial radius over polar radius | input 1 for a sphere)
-	> 2
-Enter percentage of g to be generated at radius:
-(input 1 for Earth gravity, 0 if the tube is coupled to the previous component of the assembly)
-	> 0.8
-Creating tube component. Input dimensions in meters, input '0' for only one TBD size.
-Enter the tube (internal) radius:
-	> 290
-Enter the tube length:
-	> 2500
-Enter percentage of g to be generated at radius:
-(input 1 for Earth gravity, 0 if the tube is coupled to the previous component of the assembly)
-	> 0
+
+Creating spheroid component.
+Spheroid (internal, equatorial) radius: 1800 m
+Spheroid ratio: 2
+120% of g will be generated at radius.
+
+Creating tube component.
+Tube (internal) radius: 290 m
+Tube length: 2500 m
+This tube is coupled to the previous component of the assembly.
+
 
 Configuring the second, counter-clockwise rotating assembly of the vessel.
-Creating ring component. Input dimensions in meters, input '0' for only one TBD size.
-Enter the ring (internal, outer) radius:
-	> 1800
-Enter the ring thickness:
-	> 400
-Enter the ring length:
-	> 0
-Enter percentage of g to be generated at radius:
-(input 1 for Earth gravity, 0 if the ring is coupled to the previous component of the assembly)
-	> 0.8
 
-Your To-Be-Determined value is: 205.264 m
+Creating ring component.
+Ring (internal, outer) radius: 1800 m
+Ring thickness: 400 m
+Ring length: TBD
+Has Interlink: yes
+Ring is connected to the tube of (internal) radius: 290 m
+120% of g will be generated at radius.
+
+
+Your To-Be-Determined value is: 421.617 m
 
 Run again? (y / n)
 > n
+
+
 Exiting program...
+```
+
+### Configuration file
+```
+This is the configuration file. Fill in, after each '>' character, dimensions in meters (input '0' for only one TBD size) and the percentage of g generated at the radius of each component using decimal numbers (input '1' for Earth gravity, '0' if the tube is coupled to the previous component of the assembly).
+
+
+First, clockwise rotating assembly of the vessel:
+
+Spheroid component:
+    (internal, equatorial) radius: > 1800
+    ratio: (equatorial radius over polar radius | input 1 for a sphere) > 2
+    percentage of g to be generated at radius: > 1.2
+
+
+Tube component:
+    (internal) radius: > 290
+    length: > 2500
+    percentage of g to be generated at radius: > 0
+
+
+Second, counter-clockwise rotating assembly of the vessel:
+
+Ring component:
+    (internal, outer) radius: > 1800
+    thickness: > 400
+    length: > 0
+    Has interlink? (0 if welded to the tube it spins with, else 1) > 1
+    (internal) radius of the tube it is connected to: > 290
+    percentage of g to be generated at radius: > 1.2
 ```
 
 ## License

@@ -47,21 +47,23 @@ public:
 class tube : public component
 {
 public:
-    tube();
+    tube(std::ifstream& userFile);
     void compute(wall exterior, std::map<int, double> density);
-    
+    static void print_config();
 };
 
 class ring : public component
 {
 public:
-    ring();
+    ring(std::ifstream& userFile);
     void compute(wall exterior, std::map<int, double> density);
+    static void print_config();
 };
 
 class spheroid : public component
 {
 public:
-    spheroid();
+    spheroid(std::ifstream& userFile);
     void compute(wall exterior, std::map<int, double> density);
+    static void print_config();
 };

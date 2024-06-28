@@ -1,0 +1,7 @@
+Tube component settings
+{
+20 : Spoke radius
+200 : Distance of ring length covered by a circle of spokes (if ring length is bigger than this value, > 1 plane of spokes will be constructed)
+20 : Interlink thickness (ignored for rings that are welded to the connected tubes)
+16 : Interlink clearance (ignored for rings that are welded to the connected tubes)
+}
