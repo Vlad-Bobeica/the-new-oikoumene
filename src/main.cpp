@@ -24,7 +24,7 @@ struct highlighter
 };
 
 // Function to initialise the material densities used when calculating masses.
-// Pulls data from the accessible "materials.txt" file and displays a table, returns a map.
+// Pulls data from the modifiable "materials.txt" file and displays a table, returns a map.
 map<int, double> getMaterials()
 {
     map<int, double> density;
@@ -47,7 +47,13 @@ map<int, double> getMaterials()
     return density;
 }
 
-// TO-DO COMMENTS
+// Function called at the start of program execution.
+// Determines if there is a saved vessel configuration in the "data.txt" file.
+// If there is an existing save, prompts the user with basic program execution choices:
+// Y to load the existing save, returns "1" run_case;
+// N to make a new vessel configuration, returns "0" run_case;
+// E to exit the program without running calculations, returns "-1" run_case.
+// The run case is used inside the main function to determine the starting state of the program. 
 int checkFile()
 {
     bool repeat;
@@ -94,9 +100,17 @@ int checkFile()
     return 0;
 }
 
-//TO-DO COMMENTS
+// Function used recursively with a run_case argument.
+// - the application itself, all data reading and processing happens here -
+// Returns a code in the form of a character, for stopping execution.
 char run(int run_case)
 {
+    // run_case is 0 when no saved vessel configurations exist or the user reconfigures the vessel.
+    // This run case can occur only once in a program execution.
+    // This run case handles the creation of a vessel configuration, stored inside the "data.txt" file,
+    //as well as the redaction of the "config.txt" file, for the user to interact with.
+    // A vessel configuration consists of an exterior wall and a variable number of components for each
+    //of the two counter-rotating assemblies of a vessel.
     if (run_case == 0)
     {
         cout << '\n' << "No previous data found." << '\n' << "Configuring a new vessel." << '\n' << endl;
@@ -104,7 +118,8 @@ char run(int run_case)
         wall exterior_wall(run_case);
         ofstream save("data.txt", std::ios::app);
         ofstream userFile("config.txt");
-        userFile << "This is the configuration file. Fill in, after each '>' character, dimensions in meters (input '0' for only one TBD size) "
+        userFile << "This is the configuration file. Fill in, after each '>' character, dimensions in meters "
+            << "(input '0' for only one TBD size, which cannot be a radius and must be expressed in meters) "
             << "and the percentage of g generated at the radius of each component using decimal numbers "
             << "(input '1' for Earth gravity, '0' if the tube is coupled to the previous component of the assembly)."
             << '\n' << '\n' << '\n';
@@ -127,7 +142,7 @@ char run(int run_case)
             }
             userFile << "rotating assembly of the vessel:" << '\n' << '\n';
             cout << "rotating assembly of the vessel." << '\n'
-            << "Enter the number of component subassemblies (geometric shapes):"
+            << "Enter the number of component subassemblies (geometric shapes, ignore non-rotating components):"
             << '\n' << "> ";
             int subassemblies;
             cin >> subassemblies;
@@ -172,6 +187,11 @@ char run(int run_case)
         #endif
         return 'y';
     }
+
+    // run_case is 1 for every execution of this function after the initial call.
+    // This run case handles loading the saved configuration from "data.txt", reading
+    //the user inputted values from "config.txt", and computing the to-be-determined
+    //dimension using a binary search algorithm.
     else if (run_case == 1)
     {
         assembly half[2];
@@ -248,6 +268,13 @@ char run(int run_case)
                 tbd.dimension = i;
                 break;
             }
+        if (half[tbd.half].part[tbd.sub]->get_component_name() == "ring")
+        {
+            if (tbd.dimension == 1)
+            {
+                upper_bound = half[tbd.half].part[tbd.sub]->dimensions[0] / 2;
+            }
+        }
         half[tbd.half].part[tbd.sub]->dimensions[tbd.dimension] = lower_bound;
         half[tbd.half].part[tbd.sub]->compute(exterior_wall, density);
         added_momentum = half[tbd.half].part[tbd.sub]->get_angular_momentum();
@@ -273,9 +300,13 @@ char run(int run_case)
             added_momentum = half[tbd.half].part[tbd.sub]->get_angular_momentum();
             half[tbd.half].angular_momentum += added_momentum;
             if (half[tbd.half].angular_momentum > half[abs(tbd.half - 1)].angular_momentum)
+            {
                 upper_bound = trial_size;
+            }
             else if (half[tbd.half].angular_momentum < half[abs(tbd.half - 1)].angular_momentum)
+            {
                 lower_bound = trial_size;
+            }
             if (trial_size > 9999)
             {
                 cout << '\n' <<"Invalid data set (the angular momentum of the TBD assembly is too small)." << '\n' << endl;
@@ -295,6 +326,8 @@ char run(int run_case)
         cout << '\n' << endl;
         return repeat;
     }
+
+    //for run_case -1 the function throws code "n" which stops execution.
     else return 'n';
 }
 

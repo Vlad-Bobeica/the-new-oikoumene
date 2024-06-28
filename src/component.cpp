@@ -2,7 +2,6 @@
 
 #include "component.h"
 #include <cmath>
-#include <string>
 
 const double pi = 2 * acos(0.0);
 const double g = 9.8067;
@@ -55,6 +54,11 @@ wall::wall(int run_case)
 void component::compute(wall exterior, std::map<int, double> density)
 {
     std::cout << "Error occurred : component type was not identified." << std::endl;
+}
+std::string component::get_component_name()
+{
+    std::cout << "Error occurred : component type was not identified." << std::endl;
+    return "";
 }
 void component::calculate_angular_velocity(double percentage)
 {

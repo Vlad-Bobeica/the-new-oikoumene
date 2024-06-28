@@ -4,6 +4,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
+#include <string>
 
 class wall
 {
@@ -42,6 +43,7 @@ public:
     void setMass(double x){mass = x;}
     void setMomentOfInertia(double x){moment_of_inertia = x;}
     virtual void compute(wall exterior, std::map<int, double> density);
+    virtual std::string get_component_name();
 };
 
 class tube : public component
@@ -49,6 +51,7 @@ class tube : public component
 public:
     tube(std::ifstream& userFile);
     void compute(wall exterior, std::map<int, double> density);
+    std::string get_component_name(){return "tube";}
     static void print_config();
 };
 
@@ -57,6 +60,7 @@ class ring : public component
 public:
     ring(std::ifstream& userFile);
     void compute(wall exterior, std::map<int, double> density);
+    std::string get_component_name(){return "ring";}
     static void print_config();
 };
 
@@ -65,5 +69,6 @@ class spheroid : public component
 public:
     spheroid(std::ifstream& userFile);
     void compute(wall exterior, std::map<int, double> density);
+    std::string get_component_name(){return "spheroid";}
     static void print_config();
 };
