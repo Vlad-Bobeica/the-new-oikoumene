@@ -72,7 +72,7 @@ int checkFile()
                 cout << '\n' << '\n' << "Opening configuration file..." 
                     << '\n' << '\n' << "Press ENTER to continue after filling in the configuration file." << '\n';
                 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-                std::system("config.txt");
+                std::system("start notepad config.txt");
                 #else
                 std::system("open config.txt");
                 #endif
@@ -179,7 +179,7 @@ char run(int run_case)
         cout << '\n' << '\n' << "Vessel initialised. Opening configuration file..." 
             << '\n' << '\n' << "Press ENTER to continue after filling in the configuration file." << '\n';
         #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-        std::system("config.txt");
+        std::system("start notepad config.txt");
         #else
         std::system("open config.txt");
         #endif
